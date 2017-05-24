@@ -1,3 +1,3 @@
 ```
-docker build -t mnist-tf -f docker/cpu.Dockerfile .
+docker build -t mnisttf_cpu -f docker/cpu.Dockerfile .
 ```

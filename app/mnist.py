@@ -1,5 +1,8 @@
 import numpy as np
 import tensorflow as tf
+import sys
+
+print >> sys.stderr, "Checkpoint 1"
 
 # Read data set
 from tensorflow.examples.tutorials.mnist import input_data
@@ -13,6 +16,7 @@ with tf.name_scope('input_reshape'):
     image_shaped_input = tf.reshape(x, [-1, 28, 28, 1])
     tf.summary.image('input', image_shaped_input, 10)
 
+print >> sys.stderr, "Checkpoint 2"
 
 def weight_variable(shape):
     """Create a weight variable with appropriate initialization."""
@@ -61,6 +65,7 @@ def nn_layer(input_tensor, input_dim, output_dim, layer_name, act=tf.nn.relu):
 hidden1 = nn_layer(x, 784, 500, 'layer1')
 
 # Add a dropout layer
+print >> sys.stderr, "Checkpoint 3"
 
 with tf.name_scope('dropout'):
     keep_prob = tf.placeholder(tf.float32)
@@ -86,6 +91,8 @@ with tf.name_scope('cross_entropy'):
         cross_entropy = tf.reduce_mean(diff)
 
 tf.summary.scalar('cross_entropy', cross_entropy)
+
+print >> sys.stderr, "Checkpoint 4"
 
 LEARNING_RATE = 0.001
 
@@ -117,6 +124,8 @@ def feed_dict(train):
         k = 1.0
     return {x: xs, y_: ys, keep_prob: k}
 
+print >> sys.stderr, "Checkpoint 5"
+
 MAX_STEPS = 1000
 LOG_DIR = '/usr/src/logs/mnist_with_summaries'
 
@@ -134,7 +143,7 @@ with tf.Session() as sess:
         if i % 10 == 0:  # Record summaries and test-set accuracy
             summary, acc = sess.run([merged, accuracy], feed_dict=feed_dict(False))
             test_writer.add_summary(summary, i)
-            print('Accuracy at step %s: %s' % (i, acc))
+            print >> sys.stderr, ('Accuracy at step %s: %s' % (i, acc))
         else:  # Record train set summaries, and train
             if i % 100 == 99:  # Record execution stats
                 run_options = tf.RunOptions(trace_level=tf.RunOptions.FULL_TRACE)
@@ -145,9 +154,10 @@ with tf.Session() as sess:
                                       run_metadata=run_metadata)
                 train_writer.add_run_metadata(run_metadata, 'step%03d' % i)
                 train_writer.add_summary(summary, i)
-                print('Adding run metadata for', i)
+                print >> sys.stderr, ('Adding run metadata for', i)
             else:  # Record a summary
                 summary, _ = sess.run([merged, train_step], feed_dict=feed_dict(True))
                 train_writer.add_summary(summary, i)
+
     train_writer.close()
     test_writer.close()
