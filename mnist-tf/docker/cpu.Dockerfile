@@ -3,7 +3,7 @@ FROM tensorflow/tensorflow:1.1.0
 ADD app /usr/src/app
 ADD docker/requirements.txt /usr/src/install/requirements.txt
 
-RUN pip install --no-cache-dir -r /usr/src/install/requirements.txt
+RUN pip install awscli
 
 WORKDIR /usr/src/app 
 CMD python /usr/src/app/mnist.py && \
