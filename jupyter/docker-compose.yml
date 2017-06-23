@@ -3,7 +3,7 @@ services:
   jupyter:
     build:
       context: .
-      dockerfile: docker/main.Dockerfile
+      dockerfile: docker/solo.Dockerfile
     volumes:
       - ./notebooks:/usr/src/notebooks
     ports:

@@ -8,3 +8,4 @@ dlib==19.4.0
 scikit-image==0.13.0
 tensorflow==1.1.0
 boost
+requests
